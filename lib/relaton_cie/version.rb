@@ -1,3 +1,3 @@
 module RelatonCie
-  VERSION = "1.7.pre2".freeze
+  VERSION = "1.8.0".freeze
 end
