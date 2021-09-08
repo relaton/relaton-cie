@@ -4,6 +4,7 @@ require "relaton_bib"
 require "relaton_cie/version"
 require "relaton_cie/cie_bibliography"
 require "relaton_cie/scrapper"
+require "relaton_cie/data_fetcher"
 
 module RelatonCie
   # Returns hash of XML reammar
