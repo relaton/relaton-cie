@@ -123,6 +123,25 @@ item = RelatonBib::XMLParser.from_xml File.read("spec/fixtures/bibdata.xml")
 ...
 ----
 
+=== Fetch data
+
+This gem uses the https://standards.cencenelec.eu dataset as one of data sources.
+
+The method `RelatonCie::DataFetcher.fetch(output: "data", format: "yaml")` fetches all the documents from the datast and save them to the `./data` folder in YAML format.
+Arguments:
+
+- `output` - folder to save documents (default './data').
+- `format` - format in which the documents are saved. Possimle formats are: `yaml`, `xml` (default `yaml`).
+
+[source,ruby]
+----
+RelatonCie::DataFetcher.fetch
+Started at: 2021-09-08 16:37:53 +0200
+Stopped at: 2021-09-08 16:49:17 +0200
+Done in: 684 sec.
+=> nil
+----
+
 == Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
