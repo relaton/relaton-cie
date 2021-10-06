@@ -113,6 +113,15 @@ item.to_xml bibdata: true
   </ext>
 </bibdata>"
 ----
+ === Typed links
+
+Each CIE document has `src` type link.
+
+[source,ruby]
+----
+item.link
+=> [#<RelatonBib::TypedUri:0x00007fe58e8d4048 @content=#<Addressable::URI:0xbe50 URI:https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107>, @type="src">]
+----
 
 === Parse a file locally
 
