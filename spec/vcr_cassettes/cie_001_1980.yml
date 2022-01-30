@@ -21,7 +21,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '931'
+      - '946'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -29,7 +29,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"5949467f3d02bbda39c51034967def96516f85c121258cf201746e4852e279aa"
+      - W/"fcacbadc7a2e32625a0ebe96793acfa59bb7a5cb21f7657b981956880b35befb"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -39,31 +39,31 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 2388:1752:A65C5E:AEA816:615D942E
+      - 75C8:11BA6:E8F741:F976DD:61F3E86E
       Accept-Ranges:
       - bytes
       Date:
-      - Wed, 06 Oct 2021 12:20:44 GMT
+      - Fri, 28 Jan 2022 12:58:22 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-muc13927-MUC
+      - cache-sof1510060-SOF
       X-Cache:
-      - HIT
+      - MISS
       X-Cache-Hits:
-      - '1'
+      - '0'
       X-Timer:
-      - S1633522844.269891,VS0,VE0
+      - S1643374703.640840,VS0,VE214
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 471b9f5bd8afc8f6651d5a681725268ca548fb41
+      - 97c39090b58bc90b1fa652d5848772da5cc3fa6a
       Expires:
-      - Wed, 06 Oct 2021 12:25:44 GMT
+      - Fri, 28 Jan 2022 13:03:22 GMT
       Source-Age:
-      - '109'
+      - '0'
     body:
       encoding: ASCII-8BIT
       string: |
@@ -79,7 +79,7 @@ http_interactions:
             (Joint Publication IAU/CIE)
           format: text/plain
         link:
-          content: https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107
+        - content: https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107
           type: src
         type: standard
         docid:
@@ -88,19 +88,23 @@ http_interactions:
         - id: '9783901906657'
           type: ISBN
         date:
-          type: published
+        - type: published
           value: '1980-01-01'
         contributor:
-          organization:
-            name: Commission Internationale de L'Eclairage
+        - organization:
+            name:
+            - Commission Internationale de L'Eclairage
             abbreviation: CIE
             url: cie.co.at
-          role: publisher
+          role:
+          - publisher
         revdate: '1980-01-01'
-        language: en
-        script: Latn
+        language:
+        - en
+        script:
+        - Latn
         abstract:
-          content: |-
+        - content: |-
             The increase of outdoor lighting in urban areas has resulted in levels of sky glow which seriously threaten astronomical observatories, even where these have purposely been located more than 100 km from large cities. The International Astronomical Union (IAU) and the CIE have worked together to prepare these guidelines in order to stimulate collective action that minimizes the degradation of the astronomical environment near cities.
 
             The problem and its solutions are stated in a manner that provides a basis for understanding, cooperation, and action by astronomers, lighting engineers and public authorities. The report explains the effect of man-made sky glow, the degree of glow likely to be produced by lighting near an observatory, the level above which sky glow should not be allowed to rise, and how it can be contained by good lighting practice and public ordinances.
@@ -111,9 +115,11 @@ http_interactions:
 
                 * R. Cayrel and F. G. Smith (IAU)
                 * A. J. Fisher and J. B. de Boer (CIE)
-          language: en
-          script: Latn
+          language:
+          - en
+          script:
+          - Latn
           format: text/plain
         doctype: document
-  recorded_at: Wed, 06 Oct 2021 12:20:44 GMT
+  recorded_at: Fri, 28 Jan 2022 12:58:22 GMT
 recorded_with: VCR 6.0.0
