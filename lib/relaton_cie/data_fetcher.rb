@@ -34,7 +34,7 @@ module RelatonCie
           .gsub(/,(?=\S)/, " ")
         c = "CIE #{num}"
       end
-      docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: c)]
+      docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: c, primary: true)]
       isbn = doc.at('//dt[contains(.,"ISBN")]/following-sibling::dd')
       docid << RelatonBib::DocumentIdentifier.new(type: c2.match(/\w+/).to_s, id: c2.strip) if c2
       docid << RelatonBib::DocumentIdentifier.new(type: "ISBN", id: isbn.text.strip) if isbn
@@ -74,7 +74,7 @@ module RelatonCie
         url = "https://www.techstreet.com#{ref[:href]}"
         title = RelatonBib::TypedTitleString.from_string ref.at('p/span[@class="title"]').text
         did = ref.at("h3").text
-        docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: did)]
+        docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: did, primary: true)]
         on = ref.at("p/time")
         date = [RelatonBib::BibliographicDate.new(type: "published", on: on[:datetime])]
         link = [RelatonBib::TypedUri.new(type: "src", content: url)]

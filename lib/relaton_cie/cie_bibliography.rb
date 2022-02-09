@@ -21,7 +21,7 @@ module RelatonCie
           warn "[relaton-cie] (\"#{code}\") found #{result.docidentifier.first.id}"
         else
           warn "[relaton-cie] WARNING no match found online for #{code}. "\
-          "The code must be exactly like it is on the standards website."
+               "The code must be exactly like it is on the standards website."
         end
         result
       end
