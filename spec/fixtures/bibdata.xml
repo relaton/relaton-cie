@@ -1,9 +1,9 @@
 <bibdata type="standard">
-  <fetched>2021-03-17</fetched>
+  <fetched>2022-04-08</fetched>
   <title type="title-main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
   <title type="main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
   <uri type="src">https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107</uri>
-  <docidentifier type="CIE">CIE 001-1980</docidentifier>
+  <docidentifier type="CIE" primary="true">CIE 001-1980</docidentifier>
   <docidentifier type="ISBN">9783901906657</docidentifier>
   <date type="published">
     <on>1980-01-01</on>

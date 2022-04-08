@@ -17,19 +17,19 @@ RSpec.describe "Fetching data" do
   end
 
   it "fetch documents" do
-    url = RelatonCie::DataFetcher::URL.sub("per_page=100", "per_page=5")
-    df = RelatonCie::DataFetcher.new "data", "yaml"
-    ag = df.instance_variable_get :@agent
-    ag_get = ag.method :get
-    allow(ag).to receive(:get) do |uri|
-      res = ag_get.call uri
-      if uri.include?("page=2")
-        allow(res).to receive(:at).with('//a[@class="next_page"]').and_return nil
-      end
-      res
-    end
-    expect(File).to receive(:write).with(kind_of(String), kind_of(String), encoding: "UTF-8").exactly(10).times
     VCR.use_cassette "fetch_data" do
+      url = RelatonCie::DataFetcher::URL.sub("per_page=100", "per_page=5")
+      df = RelatonCie::DataFetcher.new "data", "yaml"
+      ag = df.instance_variable_get :@agent
+      ag_get = ag.method :get
+      allow(ag).to receive(:get) do |uri|
+        res = ag_get.call uri
+        if uri.include?("page=2")
+          allow(res).to receive(:at).with('//a[@class="next_page"]').and_return nil
+        end
+        res
+      end
+      expect(File).to receive(:write).with(kind_of(String), kind_of(String), encoding: "UTF-8").exactly(10).times
       df.fetch url
     end
   end
