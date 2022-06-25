@@ -149,11 +149,12 @@ module RelatonCie
       url = "https://www.techstreet.com#{hit.at('h3/a')[:href]}"
       doc = time_req { @agent.get url }
       item = RelatonBib::BibliographicItem.new(
-        type: "standard", docid: fetch_docid(hit, doc), title: fetch_title(doc),
-        link: fetch_link(url), abstract: fetch_abstract(doc),
-        date: fetch_date(doc), edition: fetch_edition(doc),
-        contributor: fetch_contributor(doc), relation: fetch_relation(doc),
-        language: ["en"], script: ["Latn"], doctype: "document"
+        fetched: Date.today.to_s, type: "standard", link: fetch_link(url),
+        docid: fetch_docid(hit, doc), title: fetch_title(doc),
+        abstract: fetch_abstract(doc), date: fetch_date(doc),
+        edition: fetch_edition(doc), contributor: fetch_contributor(doc),
+        relation: fetch_relation(doc), language: ["en"], script: ["Latn"],
+        doctype: "document"
       )
       write_file item
     rescue StandardError => e
