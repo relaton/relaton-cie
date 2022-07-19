@@ -15,12 +15,13 @@ RSpec.describe RelatonCie do
     it "and return RelatonXML" do
       VCR.use_cassette "cie_001_1980" do
         bib = RelatonCie::CieBibliography.get "CIE 001-1980"
-        bibitem = bib.to_xml
+        bibitem = bib.to_xml.gsub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
         bibitem_file = "spec/fixtures/bibitem.xml"
         write_file bibitem_file, bibitem
         expect(bibitem).to be_equivalent_to read_file bibitem_file
 
-        bibdata = bib.to_xml bibdata: true
+        bibdata = bib.to_xml(bibdata: true)
+          .gsub(/(?<=<fetched>)\d{4}-\d{2}-\d{2}/, Date.today.to_s)
         bibdata_file = "spec/fixtures/bibdata.xml"
         write_file bibdata_file, bibdata
         expect(bibdata).to be_equivalent_to read_file bibdata_file
