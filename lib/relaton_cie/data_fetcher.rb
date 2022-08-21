@@ -149,7 +149,7 @@ module RelatonCie
       url = "https://www.techstreet.com#{hit.at('h3/a')[:href]}"
       doc = time_req { @agent.get url }
       item = RelatonBib::BibliographicItem.new(
-        type: "standard", link: fetch_link(url),
+        type: "standard", link: fetch_link(url), fetched: Date.today.to_s,
         docid: fetch_docid(hit, doc), title: fetch_title(doc),
         abstract: fetch_abstract(doc), date: fetch_date(doc),
         edition: fetch_edition(doc), contributor: fetch_contributor(doc),
