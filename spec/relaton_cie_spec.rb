@@ -25,7 +25,7 @@ RSpec.describe RelatonCie do
         bibdata_file = "spec/fixtures/bibdata.xml"
         write_file bibdata_file, bibdata
         expect(bibdata).to be_equivalent_to read_file bibdata_file
-        schema = Jing.new "spec/fixtures/isobib.rng"
+        schema = Jing.new "grammars/relaton-cie-compile.rng"
         errors = schema.validate bibdata_file
         expect(errors).to eq []
       end

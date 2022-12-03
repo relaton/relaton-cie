@@ -2,9 +2,12 @@ require "nokogiri"
 require "open-uri"
 require "relaton_bib"
 require "relaton_cie/version"
+require "relaton_cie/bibliographic_item"
 require "relaton_cie/cie_bibliography"
 require "relaton_cie/scrapper"
 require "relaton_cie/data_fetcher"
+require "relaton_cie/xml_parser"
+require "relaton_cie/hash_converter"
 
 module RelatonCie
   # Returns hash of XML reammar

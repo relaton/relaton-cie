@@ -4,7 +4,7 @@ module RelatonCie
 
     class << self
       # @param code [String]
-      # @return [RelatonBib::BibliographicItem]
+      # @return [RelatonCie::BibliographicItem]
       def scrape_page(code)
         url = "#{ENDPOINT}#{code.gsub(/[\/\s\-:.]/, '_').upcase}.yaml"
         parse_page url
@@ -17,11 +17,12 @@ module RelatonCie
       private
 
       # @param url [String]
-      # @retrurn [RelatonBib::BibliographicItem]
+      # @retrurn [RelatoCie::BibliographicItem]
       def parse_page(url)
         doc = OpenURI.open_uri url
         bib_hash = RelatonBib::HashConverter.hash_to_bib YAML.safe_load(doc)
-        RelatonBib::BibliographicItem.new(**bib_hash)
+        bib_hash[:fetched] = Date.today.to_s
+        RelatonCie::BibliographicItem.new(**bib_hash)
       end
     end
   end

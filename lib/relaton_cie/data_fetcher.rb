@@ -78,7 +78,7 @@ module RelatonCie
         on = ref.at("p/time")
         date = [RelatonBib::BibliographicDate.new(type: "published", on: on[:datetime])]
         link = [RelatonBib::TypedUri.new(type: "src", content: url)]
-        bibitem = RelatonBib::BibliographicItem.new docid: docid, title: title, link: link, date: date
+        bibitem = BibliographicItem.new docid: docid, title: title, link: link, date: date
         type = ref.at('//li/i[contains(@class,"historical")]') ? "updates" : "updatedBy"
         { type: type, bibitem: bibitem }
       end
@@ -103,14 +103,14 @@ module RelatonCie
     # @param doc [Mechanize::Page]
     # @return [Array<Hash>]
     def fetch_contributor(doc) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity
-      authors = doc.xpath('//hgroup/p[not(@class="pub_date")]').text
+      authors = doc.xpath('//hgroup/p[not(@class="pub_date")]').text.gsub "\"", ""
       contribs = []
       until authors.empty?
         /^(?<sname1>\S+(?:\sder?\s)?[^\s,]+)
         (?:,?\s(?<sname2>[\w-]{2,})(?=,\s+\w\.))?
         (?:,?\s(?<fname>[\w-]{2,})(?!,\s+\w\.))?
         (?:(?:\s?,\s?|\s)(?<init>(?:\w(?:\s?\.|\s|,|$)[\s-]?)+))?
-        (?:(?:,\s?|\s|\.|(?<=\s))(?:and\s)?)?/x =~ authors
+        (?:(?:,\s*|\s+|\.|(?<=\s))(?:and\s)?)?/x =~ authors
         raise StandardError, "Author name not found in \"#{authors}\"" unless $LAST_MATCH_INFO
 
         authors.sub! $LAST_MATCH_INFO.to_s, ""
@@ -131,7 +131,7 @@ module RelatonCie
       contribs << { entity: org, role: [{ type: "publisher" }] }
     end
 
-    # @param bib [RelatonItu::ItuBibliographicItem]
+    # @param bib [RelatonCie::BibliographicItem]
     def write_file(bib)
       id = bib.docidentifier[0].id.gsub(%r{[/\s\-:.]}, "_")
       file = "#{@output}/#{id.upcase}.#{@format}"
@@ -148,8 +148,8 @@ module RelatonCie
     def parse_page(hit) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       url = "https://www.techstreet.com#{hit.at('h3/a')[:href]}"
       doc = time_req { @agent.get url }
-      item = RelatonBib::BibliographicItem.new(
-        type: "standard", link: fetch_link(url), fetched: Date.today.to_s,
+      item = BibliographicItem.new(
+        type: "standard", link: fetch_link(url),
         docid: fetch_docid(hit, doc), title: fetch_title(doc),
         abstract: fetch_abstract(doc), date: fetch_date(doc),
         edition: fetch_edition(doc), contributor: fetch_contributor(doc),
@@ -182,7 +182,7 @@ module RelatonCie
       t1 = Time.now
       puts "Started at: #{t1}"
 
-      FileUtils.mkdir output unless Dir.exist? output
+      FileUtils.mkdir output
       new(output, format).fetch URL
 
       t2 = Time.now

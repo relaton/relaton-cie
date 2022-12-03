@@ -21,7 +21,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '955'
+      - '974'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -29,7 +29,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"f21462e7d97d13d1fa7c05ad55a53b78e5116c2671560f9dc20c90491546ccb6"
+      - W/"b4430c91fcc39da22ae5e663d4a0c6d8583103139c2cf4e87eb1c1bf3647bc91"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -39,29 +39,29 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 12D6:52BC:F1C2A3:100698B:62FF7F82
+      - 50FC:07AB:797130:A5415D:638B77F5
       Accept-Ranges:
       - bytes
       Date:
-      - Fri, 19 Aug 2022 12:18:11 GMT
+      - Sat, 03 Dec 2022 16:23:17 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-vie6381-VIE
+      - cache-atl18443-ATL
       X-Cache:
       - MISS
       X-Cache-Hits:
       - '0'
       X-Timer:
-      - S1660911491.812283,VS0,VE247
+      - S1670084597.103862,VS0,VE110
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - 84e543b10c8a1f47db0c8d3467549c902e3c02af
+      - b765b4fe425e4e855edf0eb0cf361092a80ddf0e
       Expires:
-      - Fri, 19 Aug 2022 12:23:11 GMT
+      - Sat, 03 Dec 2022 16:28:17 GMT
       Source-Age:
       - '0'
     body:
@@ -70,14 +70,14 @@ http_interactions:
         ---
         id: CIE001-1980
         title:
-        - type: title-main
-          content: Guidelines for minimizing urban sky glow near astronomical observatories
+        - content: Guidelines for minimizing urban sky glow near astronomical observatories
             (Joint Publication IAU/CIE)
           format: text/plain
-        - type: main
-          content: Guidelines for minimizing urban sky glow near astronomical observatories
+          type: title-main
+        - content: Guidelines for minimizing urban sky glow near astronomical observatories
             (Joint Publication IAU/CIE)
           format: text/plain
+          type: main
         link:
         - content: https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107
           type: src
@@ -94,11 +94,12 @@ http_interactions:
         contributor:
         - organization:
             name:
-            - Commission Internationale de L'Eclairage
-            abbreviation: CIE
+            - content: Commission Internationale de L'Eclairage
+            abbreviation:
+              content: CIE
             url: cie.co.at
           role:
-          - publisher
+          - type: publisher
         revdate: '1980-01-01'
         language:
         - en
@@ -121,6 +122,7 @@ http_interactions:
           script:
           - Latn
           format: text/plain
+        fetched: '2022-12-03'
         doctype: document
-  recorded_at: Fri, 19 Aug 2022 12:18:10 GMT
+  recorded_at: Sat, 03 Dec 2022 16:23:17 GMT
 recorded_with: VCR 6.1.0

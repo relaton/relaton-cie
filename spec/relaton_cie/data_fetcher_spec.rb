@@ -1,5 +1,6 @@
 RSpec.describe "Fetching data" do
   it "create DataFetcher instance" do
+    expect(FileUtils).to receive(:mkdir).with "data"
     instance = double "DataFetcher instance"
     expect(instance).to receive(:fetch).with RelatonCie::DataFetcher::URL
     expect(RelatonCie::DataFetcher).to receive(:new).with("data", "yaml").and_return instance
@@ -50,6 +51,39 @@ RSpec.describe "Fetching data" do
     VCR.use_cassette "fetch_data_alt_docid" do
       df.fetch url
     end
+  end
+
+  it "fetch parse relations" do
+    df = RelatonCie::DataFetcher.new "data", "yaml"
+    doc = Nokogiri::HTML <<~HTML
+      <html>
+        <body>
+          <section class="history">
+            <ol>
+              <li class="selected-product"><a><h3>CIE 001-1980</h3></a></li>
+              <li>
+                <a href="/cie/standards/001-1981">
+                  <h3>CIE 001-1981</h3>
+                  <p>
+                    <time datetime="1992-01-01 00:00:00 +0000">January 1992</time>
+                    <span class="title">Title</span>
+                  </p>
+                  <div><ul><li><i class="historical">Historical Version</i></li></ul></div>
+                </a>
+              </li>
+            </ol>
+          </section>
+        </body>
+      </html>
+    HTML
+    rels = df.fetch_relation doc
+    expect(rels.size).to eq 1
+    expect(rels.first[:type]).to eq "updates"
+    expect(rels.first[:bibitem].docidentifier.first.id).to eq "CIE 001-1981"
+    expect(rels.first[:bibitem].docidentifier.first.type).to eq "CIE"
+    expect(rels.first[:bibitem].title.first.title.content).to eq "Title"
+    expect(rels.first[:bibitem].date.first.on).to eq "1992-01-01"
+    expect(rels.first[:bibitem].link.first.content.to_s).to eq "https://www.techstreet.com/cie/standards/001-1981"
   end
 
   it "raise error" do
