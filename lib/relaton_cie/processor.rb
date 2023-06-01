@@ -47,5 +47,12 @@ module RelatonCie
     def grammar_hash
       @grammar_hash ||= ::RelatonCie.grammar_hash
     end
+
+    #
+    # Remove index file
+    #
+    def remove_index_file
+      Relaton::Index.find_or_create(:cie, url: true, file: Scrapper::INDEX_FILE).remove_file
+    end
   end
 end

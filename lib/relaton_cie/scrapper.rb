@@ -1,13 +1,17 @@
 module RelatonCie
   module Scrapper
-    ENDPOINT = "https://raw.githubusercontent.com/relaton/relaton-data-cie/master/data/".freeze
+    ENDPOINT = "https://raw.githubusercontent.com/relaton/relaton-data-cie/master/".freeze
+    INDEX_FILE = "index-v1.yaml".freeze
 
     class << self
       # @param code [String]
       # @return [RelatonCie::BibliographicItem]
       def scrape_page(code)
-        url = "#{ENDPOINT}#{code.gsub(/[\/\s\-:.]/, '_').upcase}.yaml"
-        parse_page url
+        index = Relaton::Index.find_or_create :cie, url: "#{ENDPOINT}index-v1.zip", file: INDEX_FILE
+        row = index.search(code).min_by { |r| r[:id] }
+        return unless row
+
+        parse_page "#{ENDPOINT}#{row[:file]}"
       rescue OpenURI::HTTPError => e
         return if e.io.status.first == "404"
 
