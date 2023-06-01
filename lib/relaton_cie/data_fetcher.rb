@@ -21,7 +21,7 @@ module RelatonCie
     end
 
     def index
-      @index ||= Relaton::Index.find_or_create :cie, file: "index-v1.yml"
+      @index ||= Relaton::Index.find_or_create :cie, file: "index-v1.yaml"
     end
 
     # @param hit [Nokogiri::HTML::Document]
