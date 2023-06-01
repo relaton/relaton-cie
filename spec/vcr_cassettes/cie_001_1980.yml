@@ -5,7 +5,7 @@ http_interactions:
     uri: https://raw.githubusercontent.com/relaton/relaton-data-cie/master/data/CIE_001_1980.yaml
     body:
       encoding: US-ASCII
-      string: ''
+      base64_string: ''
     headers:
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
@@ -21,7 +21,7 @@ http_interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '974'
+      - '2047'
       Cache-Control:
       - max-age=300
       Content-Security-Policy:
@@ -29,7 +29,7 @@ http_interactions:
       Content-Type:
       - text/plain; charset=utf-8
       Etag:
-      - W/"b4430c91fcc39da22ae5e663d4a0c6d8583103139c2cf4e87eb1c1bf3647bc91"
+      - W/"17c21ae120fe8e5bc70ebf140a1432479fee440640463853f5a9bc5caa32a909"
       Strict-Transport-Security:
       - max-age=31536000
       X-Content-Type-Options:
@@ -39,90 +39,79 @@ http_interactions:
       X-Xss-Protection:
       - 1; mode=block
       X-Github-Request-Id:
-      - 50FC:07AB:797130:A5415D:638B77F5
+      - F904:5B1E:DEEEE:105D09:64764E23
       Accept-Ranges:
       - bytes
       Date:
-      - Sat, 03 Dec 2022 16:23:17 GMT
+      - Tue, 30 May 2023 19:28:53 GMT
       Via:
       - 1.1 varnish
       X-Served-By:
-      - cache-atl18443-ATL
+      - cache-atl18448-ATL
       X-Cache:
-      - MISS
+      - HIT
       X-Cache-Hits:
-      - '0'
+      - '1'
       X-Timer:
-      - S1670084597.103862,VS0,VE110
+      - S1685474933.405547,VS0,VE1
       Vary:
       - Authorization,Accept-Encoding,Origin
       Access-Control-Allow-Origin:
       - "*"
       X-Fastly-Request-Id:
-      - b765b4fe425e4e855edf0eb0cf361092a80ddf0e
+      - 62c610f989622c63dc778ff188f7aee0195cecf2
       Expires:
-      - Sat, 03 Dec 2022 16:28:17 GMT
+      - Tue, 30 May 2023 19:33:53 GMT
       Source-Age:
-      - '0'
+      - '82'
     body:
       encoding: ASCII-8BIT
-      string: |
-        ---
-        id: CIE001-1980
-        title:
-        - content: Guidelines for minimizing urban sky glow near astronomical observatories
-            (Joint Publication IAU/CIE)
-          format: text/plain
-          type: title-main
-        - content: Guidelines for minimizing urban sky glow near astronomical observatories
-            (Joint Publication IAU/CIE)
-          format: text/plain
-          type: main
-        link:
-        - content: https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107
-          type: src
-        type: standard
-        docid:
-        - id: CIE 001-1980
-          type: CIE
-          primary: true
-        - id: '9783901906657'
-          type: ISBN
-        date:
-        - type: published
-          value: '1980-01-01'
-        contributor:
-        - organization:
-            name:
-            - content: Commission Internationale de L'Eclairage
-            abbreviation:
-              content: CIE
-            url: cie.co.at
-          role:
-          - type: publisher
-        revdate: '1980-01-01'
-        language:
-        - en
-        script:
-        - Latn
-        abstract:
-        - content: |-
-            The increase of outdoor lighting in urban areas has resulted in levels of sky glow which seriously threaten astronomical observatories, even where these have purposely been located more than 100 km from large cities. The International Astronomical Union (IAU) and the CIE have worked together to prepare these guidelines in order to stimulate collective action that minimizes the degradation of the astronomical environment near cities.
-
-            The problem and its solutions are stated in a manner that provides a basis for understanding, cooperation, and action by astronomers, lighting engineers and public authorities. The report explains the effect of man-made sky glow, the degree of glow likely to be produced by lighting near an observatory, the level above which sky glow should not be allowed to rise, and how it can be contained by good lighting practice and public ordinances.
-
-            The publication contains 24 pages and 2 figures.
-
-            This publication has been prepared by:
-
-                * R. Cayrel and F. G. Smith (IAU)
-                * A. J. Fisher and J. B. de Boer (CIE)
-          language:
-          - en
-          script:
-          - Latn
-          format: text/plain
-        fetched: '2022-12-03'
-        doctype: document
-  recorded_at: Sat, 03 Dec 2022 16:23:17 GMT
+      base64_string: |
+        LS0tCnNjaGVtYS12ZXJzaW9uOiB2MS4yLjMKaWQ6IENJRTAwMS0xOTgwCnRp
+        dGxlOgotIGNvbnRlbnQ6IEd1aWRlbGluZXMgZm9yIG1pbmltaXppbmcgdXJi
+        YW4gc2t5IGdsb3cgbmVhciBhc3Ryb25vbWljYWwgb2JzZXJ2YXRvcmllcwog
+        ICAgKEpvaW50IFB1YmxpY2F0aW9uIElBVS9DSUUpCiAgZm9ybWF0OiB0ZXh0
+        L3BsYWluCiAgdHlwZTogdGl0bGUtbWFpbgotIGNvbnRlbnQ6IEd1aWRlbGlu
+        ZXMgZm9yIG1pbmltaXppbmcgdXJiYW4gc2t5IGdsb3cgbmVhciBhc3Ryb25v
+        bWljYWwgb2JzZXJ2YXRvcmllcwogICAgKEpvaW50IFB1YmxpY2F0aW9uIElB
+        VS9DSUUpCiAgZm9ybWF0OiB0ZXh0L3BsYWluCiAgdHlwZTogbWFpbgpsaW5r
+        OgotIGNvbnRlbnQ6IGh0dHBzOi8vd3d3LnRlY2hzdHJlZXQuY29tL2NpZS9z
+        dGFuZGFyZHMvY2llLTAwMS0xOTgwP3Byb2R1Y3RfaWQ9MTIxMDEwNwogIHR5
+        cGU6IHNyYwp0eXBlOiBzdGFuZGFyZApkb2NpZDoKLSBpZDogQ0lFIDAwMS0x
+        OTgwCiAgdHlwZTogQ0lFCiAgcHJpbWFyeTogdHJ1ZQotIGlkOiAnOTc4Mzkw
+        MTkwNjY1NycKICB0eXBlOiBJU0JOCmRhdGU6Ci0gdHlwZTogcHVibGlzaGVk
+        CiAgdmFsdWU6ICcxOTgwLTAxLTAxJwpjb250cmlidXRvcjoKLSBvcmdhbml6
+        YXRpb246CiAgICBuYW1lOgogICAgLSBjb250ZW50OiBDb21taXNzaW9uIElu
+        dGVybmF0aW9uYWxlIGRlIEwnRWNsYWlyYWdlCiAgICBhYmJyZXZpYXRpb246
+        CiAgICAgIGNvbnRlbnQ6IENJRQogICAgdXJsOiBjaWUuY28uYXQKICByb2xl
+        OgogIC0gdHlwZTogcHVibGlzaGVyCnJldmRhdGU6ICcxOTgwLTAxLTAxJwps
+        YW5ndWFnZToKLSBlbgpzY3JpcHQ6Ci0gTGF0bgphYnN0cmFjdDoKLSBjb250
+        ZW50OiB8LQogICAgVGhlIGluY3JlYXNlIG9mIG91dGRvb3IgbGlnaHRpbmcg
+        aW4gdXJiYW4gYXJlYXMgaGFzIHJlc3VsdGVkIGluIGxldmVscyBvZiBza3kg
+        Z2xvdyB3aGljaCBzZXJpb3VzbHkgdGhyZWF0ZW4gYXN0cm9ub21pY2FsIG9i
+        c2VydmF0b3JpZXMsIGV2ZW4gd2hlcmUgdGhlc2UgaGF2ZSBwdXJwb3NlbHkg
+        YmVlbiBsb2NhdGVkIG1vcmUgdGhhbiAxMDAga20gZnJvbSBsYXJnZSBjaXRp
+        ZXMuIFRoZSBJbnRlcm5hdGlvbmFsIEFzdHJvbm9taWNhbCBVbmlvbiAoSUFV
+        KSBhbmQgdGhlIENJRSBoYXZlIHdvcmtlZCB0b2dldGhlciB0byBwcmVwYXJl
+        IHRoZXNlIGd1aWRlbGluZXMgaW4gb3JkZXIgdG8gc3RpbXVsYXRlIGNvbGxl
+        Y3RpdmUgYWN0aW9uIHRoYXQgbWluaW1pemVzIHRoZSBkZWdyYWRhdGlvbiBv
+        ZiB0aGUgYXN0cm9ub21pY2FsIGVudmlyb25tZW50IG5lYXIgY2l0aWVzLgoK
+        ICAgIFRoZSBwcm9ibGVtIGFuZCBpdHMgc29sdXRpb25zIGFyZSBzdGF0ZWQg
+        aW4gYSBtYW5uZXIgdGhhdCBwcm92aWRlcyBhIGJhc2lzIGZvciB1bmRlcnN0
+        YW5kaW5nLCBjb29wZXJhdGlvbiwgYW5kIGFjdGlvbiBieSBhc3Ryb25vbWVy
+        cywgbGlnaHRpbmcgZW5naW5lZXJzIGFuZCBwdWJsaWMgYXV0aG9yaXRpZXMu
+        IFRoZSByZXBvcnQgZXhwbGFpbnMgdGhlIGVmZmVjdCBvZiBtYW4tbWFkZSBz
+        a3kgZ2xvdywgdGhlIGRlZ3JlZSBvZiBnbG93IGxpa2VseSB0byBiZSBwcm9k
+        dWNlZCBieSBsaWdodGluZyBuZWFyIGFuIG9ic2VydmF0b3J5LCB0aGUgbGV2
+        ZWwgYWJvdmUgd2hpY2ggc2t5IGdsb3cgc2hvdWxkIG5vdCBiZSBhbGxvd2Vk
+        IHRvIHJpc2UsIGFuZCBob3cgaXQgY2FuIGJlIGNvbnRhaW5lZCBieSBnb29k
+        IGxpZ2h0aW5nIHByYWN0aWNlIGFuZCBwdWJsaWMgb3JkaW5hbmNlcy4KCiAg
+        ICBUaGUgcHVibGljYXRpb24gY29udGFpbnMgMjQgcGFnZXMgYW5kIDIgZmln
+        dXJlcy4KCiAgICBUaGlzIHB1YmxpY2F0aW9uIGhhcyBiZWVuIHByZXBhcmVk
+        IGJ5OgoKICAgICAgICAqIFIuIENheXJlbCBhbmQgRi4gRy4gU21pdGggKElB
+        VSkKICAgICAgICAqIEEuIEouIEZpc2hlciBhbmQgSi4gQi4gZGUgQm9lciAo
+        Q0lFKQogIGxhbmd1YWdlOgogIC0gZW4KICBzY3JpcHQ6CiAgLSBMYXRuCiAg
+        Zm9ybWF0OiB0ZXh0L3BsYWluCmRvY3R5cGU6IGRvY3VtZW50CmV4dDoKICBz
+        Y2hlbWEtdmVyc2lvbjogdjEuMC4wCg==
+  recorded_at: Tue, 30 May 2023 19:28:53 GMT
 recorded_with: VCR 6.1.0

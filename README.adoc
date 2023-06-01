@@ -99,13 +99,13 @@ item = RelatonCie::XMLParser.from_xml File.read("spec/fixtures/bibdata.xml")
 
 === Fetch data
 
-This gem uses the https://www.techstreet.com/cie/searches/31156444 dataset as one of data sources.
+This gem uses the https://www.techstreet.com/cie/searches/31156444 dataset as one of the data sources.
 
 The method `RelatonCie::DataFetcher.fetch(output: "data", format: "yaml")` fetches all the documents from the dataset and saves them to the `./data` folder in YAML format.
 Arguments:
 
 - `output` - folder to save documents (default './data').
-- `format` - the format in which the documents are saved. Possible formats are: `yaml`, `xml` (default `yaml`).
+- `format` - the format in which the documents are saved. Possible formats are: `yaml`, `xml`, `bibxml` (default `yaml`).
 
 [source,ruby]
 ----

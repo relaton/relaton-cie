@@ -10,35 +10,64 @@ module RelatonCie
     URL = "https://www.techstreet.com/cie/searches/31156444?page=1&per_page=100"
 
     def initialize(output, format)
-      @agent = Mechanize.new
       @output = output
       @format = format
+      @files = []
+      @ext = format == "bibxml" ? "xml" : format
+    end
+
+    def agent
+      @agent ||= Mechanize.new
+    end
+
+    def index
+      @index ||= Relaton::Index.find_or_create :cie, file: "index-v1.yml"
     end
 
     # @param hit [Nokogiri::HTML::Document]
     # @param doc [Mechanize::Page]
     # @return [Array<RelatonBib::DocumentIdentifier>]
-    def fetch_docid(hit, doc) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-      code = hit.at("h3/a").text.strip.sub(/\u25b9/, "").gsub(" / ", "/")
-      c2idx = %r{(?:\(|/)(?<c2>(?:ISO|IEC)\s[^()]+)} =~ code
-      code = code[0...c2idx].strip if c2idx
-      /^(?<code1>[^(]+)(?:\((?<code2>\w+\d+,(?:\sPages)?[^)]+))?/ =~ code
-      if code1.match?(/^CIE/)
-        c = code1.size > 25 && code2 ? "CIE #{code2.sub(/,(\sPages)?/, '')}" : code1
-        add = doc.at("//hgroup/h2")&.text&.match(/(Add)endum\s(\d+)$/)
-        c += " #{add[1]} #{add[2]}" if add
-      elsif (pcode = doc.at('//dt[.="Product Code(s):"]/following-sibling::dd'))
-        c = "CIE #{pcode.text.strip.match(/[^,]+/)}"
-      else
-        num = code.match(/(?<=\()\w{2}\d+,.+(?=\))/).to_s.gsub(/,(?=\s)/, "")
-          .gsub(/,(?=\S)/, " ")
-        c = "CIE #{num}"
+    def fetch_docid(hit, doc)
+      code, code2 = parse_code hit, doc
+      docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: code, primary: true)]
+      if code2
+        type2 = code2.match(/\w+/).to_s
+        docid << RelatonBib::DocumentIdentifier.new(type: type2, id: code2.strip)
       end
-      docid = [RelatonBib::DocumentIdentifier.new(type: "CIE", id: c, primary: true)]
       isbn = doc.at('//dt[contains(.,"ISBN")]/following-sibling::dd')
-      docid << RelatonBib::DocumentIdentifier.new(type: c2.match(/\w+/).to_s, id: c2.strip) if c2
       docid << RelatonBib::DocumentIdentifier.new(type: "ISBN", id: isbn.text.strip) if isbn
       docid
+    end
+
+    def parse_code(hit, doc = nil)
+      code = hit.at("h3/a").text.strip.squeeze(" ").sub(/\u25b9/, "").gsub(" / ", "/")
+      c2idx = %r{(?:\(|/)(?<c2>(?:ISO|IEC)\s[^()]+)} =~ code
+      code = code[0...c2idx].strip if c2idx
+      [primary_code(code, doc), c2]
+    end
+
+    def primary_code(code, doc = nil)
+      /^(?<code1>[^(]+)(?:\((?<code2>\w+\d+,(?:\sPages)?[^)]+))?/ =~ code
+      if code1&.match?(/^CIE/)
+        parse_cie_code code1, code2, doc
+      elsif (pcode = doc&.at('//dt[.="Product Code(s):"]/following-sibling::dd'))
+        "CIE #{pcode.text.strip.match(/[^,]+/)}"
+      else
+        num = code.match(/(?<=\()\w{2}\d+,.+(?=\))/).to_s.gsub(/,(?=\s)/, "").gsub(/,(?=\S)/, " ")
+        "CIE #{num}"
+      end
+    end
+
+    def parse_cie_code(code1, code2, doc = nil) # rubocop:disable Metrics/CyclomaticComplexity
+      code = code1.size > 25 && code2 ? "CIE #{code2.sub(/,(\sPages)?/, '')}" : code1
+      add = doc&.at("//hgroup/h2")&.text&.match(/(Add)endum\s(\d+)$/)
+      return code unless add
+
+      "#{code} #{add[1]} #{add[2]}"
+    end
+
+    def fetch_docnumber(hit)
+      parse_code(hit).first.sub(/\w+\s/, "")
     end
 
     # @param doc [Mechanize::Page]
@@ -63,7 +92,7 @@ module RelatonCie
     # @param doc [Mechanize::Page]
     # @return [String]
     def fetch_edition(doc)
-      doc.at('//dt[.="Edition:"]/following-sibling::dd')&.text&.match(/^\d+(?=th)/)&.to_s
+      doc.at('//dt[.="Edition:"]/following-sibling::dd')&.text&.match(/^\d+(?=(st|nd|rd|th))/)&.to_s
     end
 
     # @param doc [Mechanize::Page]
@@ -132,24 +161,32 @@ module RelatonCie
     end
 
     # @param bib [RelatonCie::BibliographicItem]
-    def write_file(bib)
+    def write_file(bib) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       id = bib.docidentifier[0].id.gsub(%r{[/\s\-:.]}, "_")
       file = "#{@output}/#{id.upcase}.#{@format}"
-      # if File.exist? file
-      #   warn "File #{file} exists. Docid: #{bib.docidentifier[0].id}"
-      #   warn "Link: #{bib.link.detect { |l| l.type == 'src' }.content}"
-      # else
-      out = @format == "xml" ? bib.to_xml(bibdata: true) : bib.to_hash.to_yaml
-      File.write file, out, encoding: "UTF-8"
-      # end
+      if @files.include? file
+        warn "File #{file} exists. Docid: #{bib.docidentifier[0].id}"
+        warn "Link: #{bib.link.detect { |l| l.type == 'src' }.content}"
+      else @files << file
+      end
+      index.add_or_update bib.docidentifier[0].id, file
+      File.write file, content(bib), encoding: "UTF-8"
+    end
+
+    def content(bib)
+      case @format
+      when "xml" then bib.to_xml(bibdata: true)
+      when "yaml" then bib.to_hash.to_yaml
+      when "bibxml" then bib.to_bibxml
+      end
     end
 
     # @param hit [Nokogiri::HTML::Element]
     def parse_page(hit) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       url = "https://www.techstreet.com#{hit.at('h3/a')[:href]}"
-      doc = time_req { @agent.get url }
+      doc = time_req { agent.get url }
       item = BibliographicItem.new(
-        type: "standard", link: fetch_link(url),
+        type: "standard", link: fetch_link(url), docnumber: fetch_docnumber(hit),
         docid: fetch_docid(hit, doc), title: fetch_title(doc),
         abstract: fetch_abstract(doc), date: fetch_date(doc),
         edition: fetch_edition(doc), contributor: fetch_contributor(doc),
@@ -164,10 +201,14 @@ module RelatonCie
     end
 
     def fetch(url)
-      result = time_req { @agent.get url }
+      result = time_req { agent.get url }
       result.xpath("//li[@data-product]").each { |hit| parse_page hit }
       np = result.at '//a[@class="next_page"]'
-      fetch "https://www.techstreet.com#{np[:href]}" if np
+      if np
+        fetch "https://www.techstreet.com#{np[:href]}"
+      else
+        index.save
+      end
     end
 
     def time_req
@@ -182,7 +223,7 @@ module RelatonCie
       t1 = Time.now
       puts "Started at: #{t1}"
 
-      FileUtils.mkdir output
+      FileUtils.mkdir_p output
       new(output, format).fetch URL
 
       t2 = Time.now
