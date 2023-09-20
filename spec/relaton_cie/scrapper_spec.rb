@@ -1,4 +1,6 @@
 RSpec.describe RelatonCie::Scrapper do
+  before { RelatonCie.instance_variable_set :@configuration, nil }
+
   it "raise HTTP Request Timeout error" do
     exception_io = double "io"
     expect(exception_io).to receive(:status).and_return ["408", "Request Timeout"]
@@ -14,6 +16,6 @@ RSpec.describe RelatonCie::Scrapper do
     expect(OpenURI).to receive(:open_uri).and_raise OpenURI::HTTPError.new "Not found", exception_io
     expect do
       expect(RelatonCie::CieBibliography.get("CIE 001-1980")).to be_nil
-    end.to output(/no match found online for CIE 001-1980/).to_stderr
+    end.to output(/no match found online for `CIE 001-1980`/).to_stderr
   end
 end
