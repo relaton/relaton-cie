@@ -15,13 +15,12 @@ module RelatonCie
       # @param opts [Hash] not used
       # @return [RelatonCie::BibliographicItem] Relaton of reference
       def get(code, _year = nil, _opts = {})
-        Util.warn "(#{code}) fetching..."
+        Util.warn "(#{code}) Fetching from Relaton repository ..."
         result = search code
         if result
-          Util.warn "(#{code}) found `#{result.docidentifier.first.id}`"
+          Util.warn "(#{code}) Found: `#{result.docidentifier.first.id}`"
         else
-          Util.warn "(#{code}) WARNING no match found online for `#{code}`. " \
-                    "The code must be exactly like it is on the standards website."
+          Util.warn "(#{code}) Not found."
         end
         result
       end
