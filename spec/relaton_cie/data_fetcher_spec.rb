@@ -81,11 +81,12 @@ RSpec.describe RelatonCie::DataFetcher do
         expect(subject).to receive(:fetch_edition).with(:doc).and_return :edition
         expect(subject).to receive(:fetch_contributor).with(:doc).and_return :contributor
         expect(subject).to receive(:fetch_relation).with(:doc).and_return :relation
+        expect(subject).to receive(:fetch_doctype).with(no_args).and_return :doctype
         expect(RelatonCie::BibliographicItem).to receive(:new).with(
           type: "standard", link: :link, docnumber: :docnumber, docid: :docid,
           title: :title, abstract: :abstract, date: :date, edition: :edition,
           contributor: :contributor, relation: :relation, language: ["en"],
-          script: ["Latn"], doctype: "document"
+          script: ["Latn"], doctype: :doctype
         ).and_return :item
         expect(subject).to receive(:write_file).with(:item)
         subject.parse_page hit
@@ -281,6 +282,12 @@ RSpec.describe RelatonCie::DataFetcher do
       relation = subject.fetch_relation doc
       expect(relation).to be_instance_of Array
       expect(relation.size).to eq 1
+    end
+
+    it "#fetch_doctype" do
+      doctype = subject.fetch_doctype
+      expect(doctype).to be_instance_of RelatonBib::DocumentType
+      expect(doctype.type).to eq "document"
     end
 
     context "#parse_code" do

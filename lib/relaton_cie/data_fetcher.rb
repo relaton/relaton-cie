@@ -160,6 +160,10 @@ module RelatonCie
       contribs << { entity: org, role: [{ type: "publisher" }] }
     end
 
+    def fetch_doctype
+      RelatonBib::DocumentType.new(type: "document")
+    end
+
     # @param bib [RelatonCie::BibliographicItem]
     def write_file(bib) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       id = bib.docidentifier[0].id.gsub(%r{[/\s\-:.]}, "_")
@@ -191,7 +195,7 @@ module RelatonCie
         abstract: fetch_abstract(doc), date: fetch_date(doc),
         edition: fetch_edition(doc), contributor: fetch_contributor(doc),
         relation: fetch_relation(doc), language: ["en"], script: ["Latn"],
-        doctype: "document"
+        doctype: fetch_doctype
       )
       write_file item
     rescue StandardError => e

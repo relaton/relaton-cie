@@ -48,15 +48,15 @@ end
 [source,ruby]
 ----
 item = RelatonCie::CieBibliography.get 'CIE 001-1980'
-[relaton-cie] (CIE 001-1980) fetching...
-[relaton-cie] (CIE 001-1980) found `CIE 001-1980`
+[relaton-cie] (CIE 001-1980) Fetching from Realton repository ...
+[relaton-cie] (CIE 001-1980) Found: `CIE 001-1980`
 => #<RelatonBib::BibliographicItem:0x007fb3f6098920
 ...
 
 # Return nil if a document doesn't exist.
 RelatonCie::CieBibliography.get '1111'
-[relaton-cie] (1111) fetching...
-[relaton-cie] WARNING no match found online for `1111`. The code must be exactly like it is on the standards website.
+[relaton-cie] (1111) Fetching from Realton repository ...
+[relaton-cie] (1111) Not found.
 => nil
 ----
 
