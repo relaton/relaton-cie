@@ -94,7 +94,9 @@ RSpec.describe RelatonCie::DataFetcher do
 
       it "raise error" do
         expect(subject.agent).to receive(:get).and_raise StandardError
-        expect { subject.parse_page hit }.to output(/Document: https:\/\/www\.techstreet\.com\/cie\/standards\/001-1980/).to_stderr
+        expect { subject.parse_page hit }.to output(
+          /Document: https:\/\/www\.techstreet\.com\/cie\/standards\/001-1980/
+        ).to_stderr_from_any_process
       end
     end
 
@@ -387,7 +389,7 @@ RSpec.describe RelatonCie::DataFetcher do
 
       it "file exists" do
         subject.instance_variable_set :@files, ["data/CIE_001_1980.yaml"]
-        expect { subject.write_file bib }.to output(/File data\/CIE_001_1980.yaml exists/).to_stderr
+        expect { subject.write_file bib }.to output(/File data\/CIE_001_1980.yaml exists/).to_stderr_from_any_process
       end
     end
 
