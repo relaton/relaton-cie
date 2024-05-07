@@ -1,7 +1,7 @@
-<bibdata type="standard" schema-version="v1.2.8">
+<bibdata type="standard" schema-version="v1.3.0">
   <fetched>2023-06-01</fetched>
-  <title type="title-main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
-  <title type="main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+  <title type="title-main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+  <title type="main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
   <uri type="src">https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107</uri>
   <docidentifier type="CIE" primary="true">CIE 001-1980</docidentifier>
   <docidentifier type="ISBN">9783901906657</docidentifier>
@@ -19,7 +19,7 @@
   </contributor>
   <language>en</language>
   <script>Latn</script>
-  <abstract format="text/plain" language="en" script="Latn">The increase of outdoor lighting in urban areas has resulted in levels of sky glow which seriously threaten astronomical observatories, even where these have purposely been located more than 100 km from large cities. The International Astronomical Union (IAU) and the CIE have worked together to prepare these guidelines in order to stimulate collective action that minimizes the degradation of the astronomical environment near cities.
+  <abstract language="en" script="Latn">The increase of outdoor lighting in urban areas has resulted in levels of sky glow which seriously threaten astronomical observatories, even where these have purposely been located more than 100 km from large cities. The International Astronomical Union (IAU) and the CIE have worked together to prepare these guidelines in order to stimulate collective action that minimizes the degradation of the astronomical environment near cities.
 
 The problem and its solutions are stated in a manner that provides a basis for understanding, cooperation, and action by astronomers, lighting engineers and public authorities. The report explains the effect of man-made sky glow, the degree of glow likely to be produced by lighting near an observatory, the level above which sky glow should not be allowed to rise, and how it can be contained by good lighting practice and public ordinances.
 

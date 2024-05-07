@@ -156,10 +156,10 @@ RSpec.describe RelatonCie::DataFetcher do
         expect(title).to be_instance_of RelatonBib::TypedTitleStringCollection
         expect(title.size).to eq 2
         expect(title.first).to be_instance_of RelatonBib::TypedTitleString
-        expect(title.first.title.content).to eq "Title"
+        expect(title.first.to_s).to eq "Title"
         expect(title.first.type).to eq "title-main"
         expect(title.last).to be_instance_of RelatonBib::TypedTitleString
-        expect(title.last.title.content).to eq "Title"
+        expect(title.last.to_s).to eq "Title"
         expect(title.last.type).to eq "main"
       end
 
@@ -174,7 +174,7 @@ RSpec.describe RelatonCie::DataFetcher do
         title = subject.fetch_title doc
         expect(title).to be_instance_of RelatonBib::TypedTitleStringCollection
         expect(title.size).to eq 2
-        expect(title.first.title.content).to eq "Title"
+        expect(title.first.to_s).to eq "Title"
       end
 
       it "empty" do
