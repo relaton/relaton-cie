@@ -1,6 +1,12 @@
 require "jing"
 
 RSpec.describe RelatonCie do
+  before do
+    # Force to download index file
+    allow_any_instance_of(Relaton::Index::Type).to receive(:actual?).and_return(false)
+    allow_any_instance_of(Relaton::Index::FileIO).to receive(:check_file).and_return(nil)
+  end
+
   it "has a version number" do
     expect(RelatonCie::VERSION).not_to be nil
   end
