@@ -169,8 +169,10 @@ module RelatonCie
       id = bib.docidentifier[0].id.gsub(%r{[/\s\-:.]}, "_")
       file = "#{@output}/#{id.upcase}.#{@format}"
       if @files.include? file
-        warn "File #{file} exists. Docid: #{bib.docidentifier[0].id}"
-        warn "Link: #{bib.link.detect { |l| l.type == 'src' }.content}"
+        Util.warn do
+          "File #{file} exists. Docid: #{bib.docidentifier[0].id}\n" \
+          "Link: #{bib.link.detect { |l| l.type == 'src' }.content}"
+        end
       else @files << file
       end
       index.add_or_update bib.docidentifier[0].id, file
@@ -199,9 +201,9 @@ module RelatonCie
       )
       write_file item
     rescue StandardError => e
-      warn "Document: #{url}"
-      warn e.message
-      warn e.backtrace
+      Util.error do
+        "Document: #{url}\n#{e.message}\n#{e.backtrace}"
+      end
     end
 
     def fetch(url)

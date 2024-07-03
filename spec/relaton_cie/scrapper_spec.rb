@@ -1,6 +1,4 @@
 RSpec.describe RelatonCie::Scrapper do
-  before { RelatonCie.instance_variable_set :@configuration, nil }
-
   it "raise HTTP Request Timeout error" do
     exception_io = double "io"
     expect(exception_io).to receive(:status).and_return ["408", "Request Timeout"]
