@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 RSpec.describe RelatonCie::DataFetcher do
   it "initialize" do
     df = described_class.new "data", "bibxml"
@@ -258,6 +260,7 @@ RSpec.describe RelatonCie::DataFetcher do
       expect(contribs.first).to be_instance_of Hash
       expect(contribs.first[:entity]).to be_instance_of RelatonBib::Person
       expect(contribs.first[:entity].name.surname.content).to eq "Ruggaber"
+      expect(contribs.first[:entity].name.forename[0].initial).to eq "B"
       expect(contribs.first[:role].first[:type]).to eq "author"
       expect(contribs.last[:entity]).to be_instance_of RelatonBib::Organization
       expect(contribs.last[:entity].name.first.content).to eq "Commission Internationale de L'Eclairage"

@@ -17,7 +17,17 @@ module RelatonCie
     end
 
     def agent
-      @agent ||= Mechanize.new
+      return @agent if @agent
+
+      @agent = Mechanize.new
+      @agent.request_headers = {
+        'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language' => 'en-US,en;q=0.5',
+        'Connection' => 'keep-alive',
+        'sec-ch-ua' => '"Chromium";v="91", "Google Chrome";v="91", ";Not A Brand";v="99"',
+        'Sec-Fetch-Dest' => 'document'
+      }
+      @agent
     end
 
     def index
@@ -139,17 +149,18 @@ module RelatonCie
         (?:,?\s(?<sname2>[\w-]{2,})(?=,\s+\w\.))?
         (?:,?\s(?<fname>[\w-]{2,})(?!,\s+\w\.))?
         (?:(?:\s?,\s?|\s)(?<init>(?:\w(?:\s?\.|\s|,|$)[\s-]?)+))?
-        (?:(?:,\s*|\s+|\.|(?<=\s))(?:and\s)?)?/x =~ authors
+        (?:(?:[,;]\s*|\s+|\.|(?<=\s))(?:and\s)?)?/x =~ authors
         raise StandardError, "Author name not found in \"#{authors}\"" unless $LAST_MATCH_INFO
 
         authors.sub! $LAST_MATCH_INFO.to_s, ""
         sname = [sname1, sname2].compact.join " "
         surname = RelatonBib::LocalizedString.new sname, "en", "Latn"
-        initial = (init&.strip || "").split(/(?:,|\.)(?:-|\s)?/).map do |int|
-          RelatonBib::LocalizedString.new(int.strip, "en", "Latn")
+        forename = []
+        forename << RelatonBib::Forename.new(content: fname, language: "en", script: "Latn") if fname
+        (init&.strip || "").split(/(?:,|\.)(?:-|\s)?/).each do |int|
+          forename << RelatonBib::Forename.new(content: "", initial: int.strip, language: "en", script: "Latn")
         end
-        forename = fname ? [RelatonBib::LocalizedString.new(fname, "en", "Latn")] : []
-        fullname = RelatonBib::FullName.new surname: surname, forename: forename, initial: initial
+        fullname = RelatonBib::FullName.new surname: surname, forename: forename
         person = RelatonBib::Person.new name: fullname
         contribs << { entity: person, role: [{ type: "author" }] }
       end
