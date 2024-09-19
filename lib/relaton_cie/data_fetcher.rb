@@ -21,12 +21,13 @@ module RelatonCie
 
       @agent = Mechanize.new
       @agent.request_headers = {
-        'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language' => 'en-US,en;q=0.5',
-        'Connection' => 'keep-alive',
-        'sec-ch-ua' => '"Chromium";v="91", "Google Chrome";v="91", ";Not A Brand";v="99"',
-        'Sec-Fetch-Dest' => 'document'
+        "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language" => "en-US,en;q=0.5",
+        "Connection" => "keep-alive",
+        "sec-ch-ua" => '"Chromium";v="91", "Google Chrome";v="91", ";Not A Brand";v="99"',
+        "Sec-Fetch-Dest" => "document"
       }
+      @agent.user_agent_alias = "Linux Firefox"
       @agent
     end
 
