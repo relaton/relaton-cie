@@ -1,17 +1,17 @@
-require_relative "lib/relaton_cie/version"
+require_relative "lib/relaton/cie/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "relaton-cie"
-  spec.version       = RelatonCie::VERSION
+  spec.version       = Relaton::Cie::VERSION
   spec.authors       = ["Ribose Inc."]
   spec.email         = ["open.source@ribose.com"]
 
   spec.summary       = <<~DESCRIPTION
-    RelatonEcma: retrieve CIE Standards for bibliographic use
+    Relaton::Cie: retrieve CIE Standards for bibliographic use
     using the BibliographicItem model.
   DESCRIPTION
   spec.description = <<~DESCRIPTION
-    RelatonEcma: retrieve CIE Standards for bibliographic use
+    Relaton::Cie: retrieve CIE Standards for bibliographic use
     using the BibliographicItem model.
   DESCRIPTION
   spec.homepage      = "https://github.com/metanorma/relaton-cie"
@@ -31,6 +31,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "mechanize", "~> 2.10"
   spec.add_dependency "parslet", "~> 2.0.0"
-  spec.add_dependency "relaton-bib", "~> 1.20.0"
+  spec.add_dependency "relaton-bib", "~> 2.0.0-alpha.1"
   spec.add_dependency "relaton-index", "~> 0.2.0"
 end
