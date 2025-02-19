@@ -1,0 +1,57 @@
+---
+type: standard
+schema_version: v1.2.8
+fetched: '2023-06-01'
+title:
+- content: Guidelines for minimizing urban sky glow near astronomical observatories
+    (Joint Publication IAU/CIE)
+  type: title-main
+- content: Guidelines for minimizing urban sky glow near astronomical observatories
+    (Joint Publication IAU/CIE)
+  type: main
+source:
+- type: src
+  content: https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107
+docidentifier:
+- content: CIE 001-1980
+  type: CIE
+  primary: true
+- content: '9783901906657'
+  type: ISBN
+docnumber: 001-1980
+date:
+- type: published
+  at: '1980-01-01'
+contributor:
+- role:
+  - type: publisher
+  organization:
+    uri:
+    - content: cie.co.at
+    name:
+    - content: Commission Internationale de L'Eclairage
+    abbreviation:
+      content: CIE
+language:
+- en
+script:
+- Latn
+abstract:
+- language: en
+  script: Latn
+  content: |-
+    The increase of outdoor lighting in urban areas has resulted in levels of sky glow which seriously threaten astronomical observatories, even where these have purposely been located more than 100 km from large cities. The International Astronomical Union (IAU) and the CIE have worked together to prepare these guidelines in order to stimulate collective action that minimizes the degradation of the astronomical environment near cities.
+
+    The problem and its solutions are stated in a manner that provides a basis for understanding, cooperation, and action by astronomers, lighting engineers and public authorities. The report explains the effect of man-made sky glow, the degree of glow likely to be produced by lighting near an observatory, the level above which sky glow should not be allowed to rise, and how it can be contained by good lighting practice and public ordinances.
+
+    The publication contains 24 pages and 2 figures.
+
+    This publication has been prepared by:
+
+        * R. Cayrel and F. G. Smith (IAU)
+        * A. J. Fisher and J. B. de Boer (CIE)
+ext:
+  schema_version: v1.0.0
+  doctype:
+    content: document
+  flavor: cie
