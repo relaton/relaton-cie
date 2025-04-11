@@ -20,7 +20,9 @@ RSpec.describe RelatonCie::DataFetcher do
   context "instance methods" do
     let(:hit) do
       Nokogiri::HTML(<<~HTML).at("li")
-        <li data-product="CIE 001-1980"><h3><a href="/cie/standards/001-1980">CIE 001-1980</a></h3></li>
+        <li data-product="CIE 001-1980">
+          <h3><a href="https://www.techstreet.com/cie/standards/001-1980">CIE 001-1980</a></h3>
+        </li>
       HTML
     end
 
@@ -418,16 +420,16 @@ RSpec.describe RelatonCie::DataFetcher do
     end
 
     context "#time_req" do
-      it "not sleep" do
+      it "reduced sleep" do
         expect(Time).to receive(:now).and_return 1, 2
-        expect(subject).not_to receive(:sleep)
+        expect(subject).to receive(:sleep).with(3)
         result = subject.time_req { :result }
         expect(result).to eq :result
       end
 
       it "sleep" do
         expect(Time).to receive(:now).and_return 1, 1
-        expect(subject).to receive(:sleep).with(1)
+        expect(subject).to receive(:sleep).with(4)
         subject.time_req { :result }
       end
     end

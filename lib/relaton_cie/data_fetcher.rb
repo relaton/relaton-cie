@@ -201,7 +201,7 @@ module RelatonCie
 
     # @param hit [Nokogiri::HTML::Element]
     def parse_page(hit) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-      url = "https://www.techstreet.com#{hit.at('h3/a')[:href]}"
+      url = hit.at('h3/a')[:href]
       doc = time_req { agent.get url }
       item = BibliographicItem.new(
         type: "standard", link: fetch_link(url), docnumber: fetch_docnumber(hit),
@@ -232,8 +232,8 @@ module RelatonCie
     def time_req
       t1 = Time.now
       result = yield
-      t = 1 - (Time.now - t1)
-      sleep t if t.positive?
+      t = [4 - (Time.now - t1), 2].max
+      sleep t
       result
     end
 
