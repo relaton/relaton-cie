@@ -12,8 +12,6 @@ require_relative "cie/bibdata"
 # require "relaton_cie/cie_bibliography"
 # require "relaton_cie/scrapper"
 # require "relaton_cie/data_fetcher"
-# require "relaton_cie/xml_parser"
-# require "relaton_cie/hash_converter"
 
 module Relaton
   module Cie
