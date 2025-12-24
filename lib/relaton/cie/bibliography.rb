@@ -19,7 +19,7 @@ module Relaton
           Util.info "Fetching from Relaton repository ...", key: code
           result = search code
           if result
-            Util.info "Found: `#{result.docidentifier.first.id}`", key: code
+            Util.info "Found: `#{result.docidentifier.first.content}`", key: code
           else
             Util.info "Not found.", key: code
           end

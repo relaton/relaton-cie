@@ -1,4 +1,4 @@
-= RelatonCie
+= Relaton::Cie
 
 image:https://img.shields.io/gem/v/relaton-cie.svg["Gem Version", link="https://rubygems.org/gems/relaton-cie"]
 image:https://github.com/relaton/relaton-cie/workflows/macos/badge.svg["Build Status (macOS)", link="https://github.com/relaton/relaton-cie/actions?workflow=macos"]
@@ -33,19 +33,19 @@ Or install it yourself as:
 
 [source,ruby]
 ----
-require 'relaton_cie'
+require 'relaton/cie'
 => true
 
-item = RelatonCie::CieBibliography.get 'CIE 001-1980'
-[relaton-cie] (CIE 001-1980) Fetching from Realton repository ...
-[relaton-cie] (CIE 001-1980) Found: `CIE 001-1980`
-=> #<RelatonBib::BibliographicItem:0x007fb3f6098920
+item = Relaton::Cie::Bibliography.get 'CIE 001-1980'
+[relaton-cie] INFO: (CIE 001-1980) Fetching from Relaton repository ...
+[relaton-cie] INFO: (CIE 001-1980) Found: `CIE 001-1980`
+=> #<Relaton::Bib::ItemData:0x0000000123b05300
 ...
 
 # Return nil if a document doesn't exist.
-RelatonCie::CieBibliography.get '1111'
-[relaton-cie] (1111) Fetching from Realton repository ...
-[relaton-cie] (1111) Not found.
+Relaton::Cie::Bibliography.get '1111'
+[relaton-cie] INFO: (1111) Fetching from Relaton repository ...
+[relaton-cie] INFO: (1111) Not found.
 => nil
 ----
 
@@ -54,11 +54,11 @@ RelatonCie::CieBibliography.get '1111'
 [source,ruby]
 ----
 item.to_xml
-=> "<bibitem id="CIE001-1980" type="standard" schema-version="v1.2.1">
-      <fetched>2022-12-03</fetched>
-      <title type="title-main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
-      <title type="main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
-      <uri type="src">https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107</uri>
+=> "<bibitem id="CIE0011980" type="standard" schema-version="v1.4.1">
+      <fetched>2025-12-23</fetched>
+      <title type="title-main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+      <title type="main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+      <uri type="src">https://store.accuristech.com/standards/cie-001-1980?product_id=1210107</uri>
       ...
     </bibitem>"
 ----
@@ -67,33 +67,39 @@ With `bibdata: true` option XML output is wrapped with `bibdata` element and `ex
 [source,ruby]
 ----
 item.to_xml bibdata: true
-=> "<bibdata type="standard" schema-version="v1.2.1">
-      <fetched>2022-12-03</fetched>
-      <title type="title-main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
-      <title type="main" format="text/plain">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
-      <uri type="src">https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107</uri>
+=> "<bibdata type="standard" schema-version="v1.4.1">
+      <fetched>2025-12-23</fetched>
+      <title type="title-main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+      <title type="main">Guidelines for minimizing urban sky glow near astronomical observatories (Joint Publication IAU/CIE)</title>
+      <uri type="src">https://store.accuristech.com/standards/cie-001-1980?product_id=1210107</uri>
       ...
       <ext schema-version="v1.0.0">
         <doctype>document</doctype>
+        <flavor>cie</flavor>
       </ext>
-    </bibdata>"
+    </bibdata>
 ----
  === Typed links
 
-Each CIE document has `src` type link.
+Each CIE document has `src` type source link.
 
 [source,ruby]
 ----
-item.link
-=> [#<RelatonBib::TypedUri:0x00007fe58e8d4048 @content=#<Addressable::URI:0xbe50 URI:https://www.techstreet.com/cie/standards/cie-001-1980?product_id=1210107>, @type="src">]
+item.source
+=> [#<Relaton::Bib::Uri:0x0000000123cc2990
+  @content="https://store.accuristech.com/standards/cie-001-1980?product_id=1210107",
+  @language=nil,
+  @locale=nil,
+  @script=nil,
+  @type="src">]
 ----
 
 === Parse a file locally
 
 [source,ruby]
 ----
-item = RelatonCie::XMLParser.from_xml File.read("spec/fixtures/bibdata.xml")
-#<RelatonCie::BibliographicItem:0x00007feecda370f0
+item = Relaton::Cie::Item.from_xml File.read("spec/fixtures/bibdata.xml")
+=> #<Relaton::Cie::ItemData:0x000000010d00d0d0
 ...
 ----
 
@@ -101,7 +107,7 @@ item = RelatonCie::XMLParser.from_xml File.read("spec/fixtures/bibdata.xml")
 
 This gem uses the https://www.techstreet.com/cie/searches/31156444 dataset as one of the data sources.
 
-The method `RelatonCie::DataFetcher.fetch(output: "data", format: "yaml")` fetches all the documents from the dataset and saves them to the `./data` folder in YAML format.
+The method `Relaton::Cie::DataFetcher.fetch(output: "data", format: "yaml")` fetches all the documents from the dataset and saves them to the `./data` folder in YAML format.
 Arguments:
 
 - `output` - folder to save documents (default './data').
@@ -109,7 +115,10 @@ Arguments:
 
 [source,ruby]
 ----
-RelatonCie::DataFetcher.fetch
+require "relaton/cie/data_fetcher"
+=> true
+
+Relaton::Cie::DataFetcher.fetch
 Started at: 2021-09-08 16:37:53 +0200
 Stopped at: 2021-09-08 16:49:17 +0200
 Done in: 684 sec.

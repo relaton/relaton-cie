@@ -1,4 +1,4 @@
-require "relaton/processor"
+require "relaton/core/processor"
 
 module Relaton
   module Cie

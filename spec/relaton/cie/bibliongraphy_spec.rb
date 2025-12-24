@@ -13,7 +13,8 @@ describe Relaton::Cie::Bibliography do
     end
 
     it "found" do
-      bib = double "bib", docidentifier: [double("id", id: "CIE 001-1980")]
+      docid = Relaton::Bib::Docidentifier.new(type: "CIE", content: "CIE 001-1980")
+      bib = Relaton::Cie::ItemData.new docidentifier: [docid]
       expect(described_class).to receive(:search).with("CIE 001-1980").and_return bib
       expect do
         expect(described_class.get("CIE 001-1980")).to be bib

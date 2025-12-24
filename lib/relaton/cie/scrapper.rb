@@ -1,7 +1,7 @@
 module Relaton
   module Cie
     module Scrapper
-      ENDPOINT = "https://raw.githubusercontent.com/relaton/relaton-data-cie/main/".freeze
+      ENDPOINT = "https://raw.githubusercontent.com/relaton/relaton-data-cie/refs/heads/data-v2/".freeze
       INDEX_FILE = "index-v1.yaml".freeze
 
       class << self

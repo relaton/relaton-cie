@@ -81,7 +81,7 @@ module Relaton
       # @param doc [Mechanize::Page]
       # @return [Array<Relaton::Bib::Title>]
       def fetch_title(doc)
-        t = doc.at("//hgroup/h2", "//hgroup/h1")
+        t = doc.at("//hgroup/h2/text()", "//hgroup/h1/text()")
         return [] unless t
 
         Bib::Title.from_string t.text.strip
@@ -119,7 +119,7 @@ module Relaton
           on = ref.at("p/time")
           date = [Bib::Date.new(type: "published", at: on[:datetime])]
           source = [Bib::Uri.new(type: "src", content: url)]
-          bibitem = Bib::ItemData.new docidentifier: docid, title: title, source: source, date: date
+          bibitem = ItemData.new docidentifier: docid, title: title, source: source, date: date
           type = ref.at('//li/i[contains(@class,"historical")]') ? "updates" : "updatedBy"
           Bib::Relation.new(type: type, bibitem: bibitem)
         end
@@ -209,7 +209,7 @@ module Relaton
       def parse_page(hit) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
         url = hit.at('h3/a')[:href]
         doc = time_req { agent.get url }
-        item = Bib::ItemData.new(
+        item = ItemData.new(
           type: "standard", source: fetch_source(url), docnumber: fetch_docnumber(hit),
           docidentifier: fetch_docid(hit, doc), title: fetch_title(doc),
           abstract: fetch_abstract(doc), date: fetch_date(doc),

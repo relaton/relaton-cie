@@ -93,7 +93,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
         item = nil
         expect(subject).to receive(:write_file) { |i| item = i }
         subject.parse_page hit
-        expect(item).to be_instance_of Relaton::Bib::ItemData
+        expect(item).to be_instance_of Relaton::Cie::ItemData
         expect(item.id).to eq "CIEISO899512025"
         expect(item.type).to eq "standard"
         expect(item.source.first).to be_instance_of Relaton::Bib::Uri
@@ -134,8 +134,10 @@ RSpec.describe Relaton::Cie::DataFetcher do
         doc = Nokogiri::HTML <<~HTML
           <html>
             <body>
-              <dt>ISBN(s):</dt>
-              <dd>9783902842001</dd>
+              <div class="product-details__row">
+                <h3>ISBN(s):</h3>
+                <span>9783902842138</span>
+              </div>
             </body>
           </html>
         HTML
@@ -147,7 +149,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
         expect(docid.first.content).to eq "CIE 001-1980"
         expect(docid.first.type).to eq "CIE"
         expect(docid.first.primary).to be true
-        expect(docid.last.content).to eq "9783902842001"
+        expect(docid.last.content).to eq "9783902842138"
         expect(docid.last.type).to eq "ISBN"
       end
 
@@ -370,10 +372,10 @@ RSpec.describe Relaton::Cie::DataFetcher do
         doc = Nokogiri::HTML <<~HTML
           <html>
             <body>
-              <dl>
-                <dt>Product Code(s):</dt>
-                <dd> x043-PP09, x043-PP09, x043-PP09</dd>
-              </dl>
+              <div class="product-details__row">
+                <h3>Product Code(s):</h3>
+                <span>x043-PP09, x043-PP09, x043-PP09</span>
+              </div>
             </body>
           </html>
         HTML
@@ -437,7 +439,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
     end
 
     context "#content" do
-      let(:bib) { Relaton::Bib::ItemData.new }
+      let(:bib) { Relaton::Cie::ItemData.new }
 
       it "xml" do
         subject.instance_variable_set :@format, "xml"
