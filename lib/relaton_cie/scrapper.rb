@@ -11,22 +11,30 @@ module RelatonCie
         row = index.search(code).min_by { |r| r[:id] }
         return unless row
 
-        parse_page "#{ENDPOINT}#{row[:file]}"
-      rescue OpenURI::HTTPError => e
-        return if e.io.status.first == "404"
+        parse_page "#{ENDPOINT}#{row[:file]}", code
+      # rescue OpenURI::HTTPError => e
+      #   return if e.io.status.first == "404"
 
-        raise RelatonBib::RequestError, "No document found for #{code} reference. #{e.message}"
+      #   raise RelatonBib::RequestError, "No document found for #{code} reference. #{e.message}"
       end
 
       private
 
       # @param url [String]
       # @retrurn [RelatoCie::BibliographicItem]
-      def parse_page(url)
-        doc = OpenURI.open_uri url
-        bib_hash = RelatonBib::HashConverter.hash_to_bib YAML.safe_load(doc)
+      def parse_page(url, code)
+        resp = Mechanize.new.get url
+        bib_hash = RelatonBib::HashConverter.hash_to_bib YAML.safe_load(resp.body)
         bib_hash[:fetched] = Date.today.to_s
         RelatonCie::BibliographicItem.new(**bib_hash)
+      rescue Mechanize::ResponseCodeError => e
+        return if e.response_code == "404"
+
+        raise RelatonBib::RequestError, "No document found for #{code} reference. #{e.message}"
+      rescue Mechanize::RedirectLimitReachedError, Timeout::Error,
+          Mechanize::UnauthorizedError, Mechanize::UnsupportedSchemeError,
+          Mechanize::ResponseReadError, Mechanize::ChunkedTerminationError => e
+        raise RelatonBib::RequestError, "No document found for #{code} reference. #{e.message}"
       end
     end
   end
