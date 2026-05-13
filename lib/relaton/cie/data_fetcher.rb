@@ -29,6 +29,7 @@ module Relaton
           window_size: [1366, 768],
           browser_options: {
             "disable-blink-features" => "AutomationControlled",
+            "disable-quic" => nil,
             "no-sandbox" => nil
           }
         )
@@ -329,7 +330,12 @@ module Relaton
         end
       end
 
-      RETRIABLE_ERRORS = [SocketError, Ferrum::TimeoutError, Ferrum::PendingConnectionsError].freeze
+      RETRIABLE_ERRORS = [
+        SocketError,
+        Ferrum::TimeoutError,
+        Ferrum::PendingConnectionsError,
+        Ferrum::StatusError
+      ].freeze
 
       def time_req
         tries = 0
