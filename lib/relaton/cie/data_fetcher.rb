@@ -2,7 +2,8 @@
 
 require "English"
 require "fileutils"
-require "mechanize"
+require "ferrum"
+require "nokogiri"
 require "relaton/index"
 require "relaton/bib"
 require "relaton/core/data_fetcher"
@@ -10,22 +11,70 @@ require_relative "../cie"
 
 module Relaton
   module Cie
+    # Thin Ferrum-backed HTTP agent that mimics the Mechanize#get interface
+    # used elsewhere in DataFetcher. Drives headless Chrome with stealth
+    # tweaks so the CIE catalogue host (Cloudflare-protected accuristech)
+    # serves real HTML instead of a "Just a moment..." challenge.
+    class BrowserAgent
+      UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " \
+           "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+      CHALLENGE_MARKERS = ["Just a moment", "challenge-platform"].freeze
+      MAX_CHALLENGE_WAIT = 30
+
+      def initialize
+        @browser = Ferrum::Browser.new(
+          headless: true,
+          timeout: 90,
+          process_timeout: 90,
+          window_size: [1366, 768],
+          browser_options: {
+            "disable-blink-features" => "AutomationControlled",
+            "no-sandbox" => nil
+          }
+        )
+        @browser.headers.set(
+          "Accept-Language" => "en-US,en;q=0.9",
+          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9," \
+                      "image/webp,*/*;q=0.8",
+          "User-Agent" => UA
+        )
+        # Pre-mask the most common headless-Chrome tells before any page JS runs.
+        @browser.evaluate_on_new_document(<<~JS)
+          Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+          Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+          Object.defineProperty(navigator, 'plugins', { get: () => [1,2,3,4,5] });
+          window.chrome = { runtime: {} };
+        JS
+      end
+
+      def get(url)
+        @browser.go_to(url)
+        wait_for_challenge
+        Nokogiri::HTML(@browser.body)
+      end
+
+      def quit
+        @browser&.quit
+      ensure
+        @browser = nil
+      end
+
+      private
+
+      def wait_for_challenge
+        MAX_CHALLENGE_WAIT.times do
+          return unless CHALLENGE_MARKERS.any? { |m| @browser.body.include?(m) }
+
+          sleep 1
+        end
+      end
+    end
+
     class DataFetcher < Relaton::Core::DataFetcher
       URL = "https://www.techstreet.com/cie/searches/31156444?page=1&per_page=100"
 
       def agent
-        return @agent if @agent
-
-        @agent = Mechanize.new
-        @agent.request_headers = {
-          "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-          "Accept-Language" => "en-US,en;q=0.5",
-          "Connection" => "keep-alive",
-          "sec-ch-ua" => '"Chromium";v="91", "Google Chrome";v="91", ";Not A Brand";v="99"',
-          "Sec-Fetch-Dest" => "document"
-        }
-        @agent.user_agent_alias = "Linux Firefox"
-        @agent
+        @agent ||= BrowserAgent.new
       end
 
       def index
@@ -263,6 +312,8 @@ module Relaton
       def fetch(_source = nil)
         fetch_doc
         report_errors
+      ensure
+        @agent&.quit
       end
 
       def fetch_doc(url = URL)
@@ -270,11 +321,15 @@ module Relaton
         result.xpath("//li[@data-product]").each { |hit| parse_page hit }
         np = result.at '//a[@class="next_page"]'
         if np
-          fetch_doc "https://www.techstreet.com#{np[:href]}"
+          next_href = np[:href]
+          next_url = next_href.start_with?("http") ? next_href : "https://www.techstreet.com#{next_href}"
+          fetch_doc next_url
         else
           index.save
         end
       end
+
+      RETRIABLE_ERRORS = [SocketError, Ferrum::TimeoutError, Ferrum::PendingConnectionsError].freeze
 
       def time_req
         tries = 0
@@ -282,7 +337,7 @@ module Relaton
           tries += 1
           sleep [4 - (Time.now - @last_request_time).to_i, 0].max if @last_request_time
           yield
-        rescue SocketError => e
+        rescue *RETRIABLE_ERRORS => e
           retry if tries < 4
           raise e
         ensure

@@ -38,6 +38,10 @@ RSpec.describe Relaton::Cie::DataFetcher do
 
     subject { described_class.new "data", "yaml" }
 
+    let(:agent) { instance_double(Relaton::Cie::BrowserAgent, quit: nil) }
+
+    before { allow(subject).to receive(:agent).and_return(agent) }
+
     context "#fetch" do
       let(:url) { "https://www.techstreet.com/cie/searches/31156444?page=1&per_page=100" }
 
@@ -57,7 +61,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
             </body>
           </html>
         HTML
-        expect(subject.agent).to receive(:get).with(url).and_return result
+        expect(agent).to receive(:get).with(url).and_return result
         expect(subject).to receive(:fetch_doc).with("https://www.techstreet.com/cie/standards?page=2")
         allow(subject).to receive(:fetch_doc).with(no_args).and_call_original
         expect(subject.index).not_to receive(:save)
@@ -74,7 +78,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
             </body>
           </html>
         HTML
-        expect(subject.agent).to receive(:get).with(url).and_return result
+        expect(agent).to receive(:get).with(url).and_return result
         expect(subject.index).to receive(:save)
         subject.fetch
       end
@@ -89,7 +93,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
 
       it do
         link = "https://store.accuristech.com/standards/cie-iso-8995-1-2025-en?product_id=2930375"
-        expect(subject.agent).to receive(:get).with(link).and_return doc
+        expect(agent).to receive(:get).with(link).and_return doc
         item = nil
         expect(subject).to receive(:write_file) { |i| item = i }
         subject.parse_page hit
@@ -114,7 +118,7 @@ RSpec.describe Relaton::Cie::DataFetcher do
       end
 
       it "raise error" do
-        expect(subject.agent).to receive(:get).and_raise StandardError
+        expect(agent).to receive(:get).and_raise StandardError
         expect { subject.parse_page hit }.to output(
           /https:\/\/store\.accuristech\.com\/standards\/cie-iso-8995-1-2025-en\?product_id=2930375/
         ).to_stderr_from_any_process
